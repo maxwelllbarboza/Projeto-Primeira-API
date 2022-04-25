@@ -58,7 +58,7 @@ app.post("/instrutores", (req, res)=> {
   res.json(novoInstrutor);
 });
 
-
+// PATCH /instrutores/id
 app.patch("/instrutores/:idConsultado", (req, res) => {
   const instrutor = listaDeInstrutores.find(instrutor => 
     instrutor.id === Number(req.params.idConsultado));
@@ -72,6 +72,40 @@ app.patch("/instrutores/:idConsultado", (req, res) => {
     instrutor.materia = req.body.materia;
   }  
   res.json(instrutor);
+});
+
+// PUT /instrutores/id
+app.put("/instrutores/:idConsultado", (req, res) =>{
+  const instrutor = listaDeInstrutores.find(instrutor => 
+    instrutor.id === Number(req.params.idConsultado));
+  if(instrutor){
+    instrutor.nome = req.body.nome;
+    instrutor.idade = req.body.idade;
+    instrutor.materia = req.body.materia;
+    res.json(instrutor);
+  } else{
+    const novoInstrutores = req.body;
+    listaDeInstrutores.push(novoInstrutores);
+    res.json(novoInstrutores);
+  } 
+});
+
+
+// DELETE /instrutrores/id
+app.delete("/instrutores/:idConsultado", (req, res) => {
+  const instrutor = listaDeInstrutores.find(instrutor => 
+    instrutor.id === Number(req.params.idConsultado));
+
+  if(instrutor){
+    const indice = listaDeInstrutores.indexOf(instrutor);  
+    listaDeInstrutores.splice(indice, 1);
+    res.json(instrutor);
+  }else{
+    res.status(400);
+    res.send("Usuário não existe")
+  }  
+  
+
 });
 
 
